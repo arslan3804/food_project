@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:13.10
+    env_file: .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./food_backend
+    env_file: .env
+    depends_on:
+      - db
+    volumes:
+      - static_volume:/app/static
+      - media_volume:/app/media
+    expose:
+      - "8000"
+
+  frontend:
+    build: ./food_frontend
+    depends_on:
+      - backend
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - static_volume:/app/static
+      - media_volume:/app/media
+    depends_on:
+      - backend
+      - frontend
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
