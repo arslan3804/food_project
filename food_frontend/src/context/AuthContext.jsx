@@ -13,16 +13,24 @@ export function AuthProvider({ children }) {
   const login = async (username, password) => {
     try {
       const response = await api.post('/jwt/create/', { username, password });
-      console.log('Отправка запроса на /jwt/create/ с данными:', { username, password });
       localStorage.setItem('access', response.data.access);
       localStorage.setItem('refresh', response.data.refresh);
-      setUser({ username });
+
+      const userResponse = await api.get('/users/me/');
+      setUser({
+        username: userResponse.data.username,
+        first_name: userResponse.data.first_name,
+        last_name: userResponse.data.last_name,
+        address: userResponse.data.address,
+      });
+
       return { success: true };
     } catch (error) {
       console.error('Login error:', error);
       return { success: false, error: error.response?.data };
     }
   };
+
 
   const register = async (username, password) => {
     try {
@@ -41,13 +49,17 @@ export function AuthProvider({ children }) {
   };
 
   const checkAuth = async () => {
-    const token = localStorage.getItem('access');
-    if (token && !user) {
+  const token = localStorage.getItem('access');
+  if (token && !user) {
       try {
         const response = await api.get('/users/me/');
-      setUser({ username: response.data.username });
+        setUser({
+          username: response.data.username,
+          first_name: response.data.first_name,
+          last_name: response.data.last_name,
+          address: response.data.address,
+        });
       } catch (error) {
-        console.log('Error...');
         logout();
       }
     }

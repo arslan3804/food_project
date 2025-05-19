@@ -11,12 +11,7 @@ import ProductDetail from './components/products/ProductDetail';
 import OrderList from './components/orders/OrderList';
 import Cart from './components/cart/Cart';
 import PromoCodes from './components/promocodes/PromoCodes';
-
-import ArticlesByCategory from './components/products/ProductsByCategory';
-import AddArticle from './components/forms/AddArticle';
-import AddCategory from './components/forms/AddCategory';
-import AddNewsSource from './components/forms/AddNewsSource';
-
+import ProfileForm from './components/profile/ProfileForm';
 
 
 export default function App() {
@@ -35,14 +30,10 @@ export default function App() {
             <Route path="/orders" element={<OrderList />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/promo-codes" element={<PromoCodes />} />
+            <Route path="/profile" element={<ProfileForm />} />
           </Routes>
         </BrowserRouter>
       </CartProvider>
     </AuthProvider>
   )
 }
-/*
-          <Route path="/add_article" element={<AddArticle />} />
-          <Route path="/add_category" element={<AddCategory />} />
-          <Route path="/add_source" element={<AddNewsSource />} />
-*/

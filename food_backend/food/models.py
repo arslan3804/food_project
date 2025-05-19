@@ -123,6 +123,14 @@ class Cart(models.Model):
 
     def __str__(self):
         return f"Корзина пользователя {self.user.username}"
+    
+    def calculate_total(self):
+        subtotal = sum(
+            item.product.price * item.quantity 
+            for item in self.items.all()
+        )
+        total = subtotal - self.discount_amount
+        return total
 
     def apply_promo_code(self, promo_code):
         if not promo_code.is_usable(self.user):

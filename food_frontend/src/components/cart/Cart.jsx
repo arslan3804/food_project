@@ -1,15 +1,38 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
+import api from '../../services/api';
 
 export default function Cart() {
   const { user } = useAuth();
-  const { cart, addToCart, decreaseFromCart, removeFromCart, clearCart, applyPromo, removePromo } = useCart();
+  const { cart, addToCart, decreaseFromCart, removeFromCart, clearCart, applyPromo, removePromo, fetchCart } = useCart();
 
   const [promoCode, setPromoCode] = useState('');
+  const [orderMessage, setOrderMessage] = useState('');
 
   if (!user) return <p className="mt-4 text-center">Пожалуйста, войдите, чтобы посмотреть корзину.</p>;
   if (!cart || cart.items.length === 0) return <p className="mt-4 text-center">Ваша корзина пуста.</p>;
+
+  const canOrder = user.first_name && user.last_name && user.address;
+
+  const handleCreateOrder = async () => {
+    if (!canOrder) {
+      setOrderMessage("Пожалуйста, заполните имя, фамилию и адрес в профиле перед оформлением заказа.");
+      return;
+    }
+
+    try {
+      await api.post('/orders/create-from-cart/', {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        delivery_address: user.address,
+      });
+      setOrderMessage("Заказ успешно создан!");
+      await fetchCart();
+    } catch (error) {
+      setOrderMessage(error.response?.data?.detail || "Ошибка при создании заказа.");
+    }
+  };
 
   return (
     <div className="container mt-4">
@@ -79,9 +102,24 @@ export default function Cart() {
         </div>
       )}
 
-      <button className="btn btn-danger" onClick={clearCart}>
+      <button className="btn btn-danger me-2" onClick={clearCart}>
         Очистить корзину
       </button>
+
+      {/* Кнопка оформления заказа */}
+      <button
+        className="btn btn-success"
+        disabled={!canOrder}
+        onClick={handleCreateOrder}
+      >
+        Оформить заказ
+      </button>
+
+      {orderMessage && (
+        <div className="alert alert-info mt-3">
+          {orderMessage}
+        </div>
+      )}
     </div>
   );
 }

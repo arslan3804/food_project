@@ -1,7 +1,7 @@
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework import status, mixins
+from rest_framework import status, mixins, filters
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
@@ -36,8 +36,9 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all().order_by('-created_at')
     serializer_class = ProductSerializer
     permission_classes = (AdminOnlyCreateUpdateDelete,)
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
     filterset_fields = ['category', 'is_available']
+    search_fields = ['name']
 
     @action(detail=False, url_path='category/(?P<slug>[\w-]+)', methods=['get'])
     def by_category_slug(self, request, slug=None):
@@ -190,9 +191,11 @@ class OrderViewSet(viewsets.ModelViewSet):
                 )
 
         delivery_address = request.data.get("delivery_address", user.address)
-        if not delivery_address:
+        first_name = request.data.get("first_name", user.first_name)
+        last_name = request.data.get("last_name", user.last_name)
+        if not delivery_address or not first_name or not last_name:
             return Response(
-                {"detail": "Требуется адрес доставки"},
+                {"detail": "Необходимо заполнить адрес доставки, имя и фамилию."},
                 status=status.HTTP_400_BAD_REQUEST
             )
 

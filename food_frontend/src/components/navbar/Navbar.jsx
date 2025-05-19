@@ -30,6 +30,9 @@ export default function Navbar() {
                 <Link to="/promo-codes" className="nav-link">Промокоды</Link>
               </li>
               <li className="nav-item">
+                <Link to="/profile" className="nav-link">Профиль</Link>
+              </li>
+              <li className="nav-item">
                 <button onClick={handleLogout} className="btn btn-outline-light ms-2">
                   Выход ({user.username})
                 </button>
