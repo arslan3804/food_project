@@ -48,15 +48,6 @@ export default function ProductItem({ product }) {
           </div>
         </div>
       </Link>
-
-      {product.category_detail && (
-        <div className={styles.categoryOutsideLink}>
-          Категория:{' '}
-          <Link to={`/products?category=${product.category_detail.slug}`}>
-            {product.category_detail.name}
-          </Link>
-        </div>
-      )}
     </div>
   );
 }
