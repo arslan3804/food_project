@@ -13,7 +13,7 @@ export default function ProductList() {
       params.search = query;
     }
     api.get('/products/', { params })
-      .then(res => setProducts(res.data))
+      .then(res => setProducts(res.data.results || []))
       .catch(() => setError('Ошибка загрузки продуктов'));
   };
 
