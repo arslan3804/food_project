@@ -2,6 +2,7 @@ from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status, mixins, filters
+from rest_framework.pagination import LimitOffsetPagination
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
@@ -39,6 +40,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
     filterset_fields = ['category', 'is_available']
     search_fields = ['name']
+    pagination_class = LimitOffsetPagination
 
     @action(detail=False, url_path='category/(?P<slug>[\w-]+)', methods=['get'])
     def by_category_slug(self, request, slug=None):
