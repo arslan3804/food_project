@@ -8,7 +8,7 @@
 
 ---
 
-## ⚙️ Технологии
+## Технологии
 
 - **Backend**: Django, Django REST Framework, JWT
 - **Frontend**: React, Bootstrap, react-router-dom, axios
