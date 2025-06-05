@@ -66,8 +66,13 @@ MEDIA_ROOT = BASE_DIR / 'media'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "http://localhost",
+    "http://127.0.0.1",
     "http://176.108.252.240",
-    "http://176.108.252.240:3000"
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://176.108.252.240",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
