@@ -23,17 +23,13 @@ export default function Orders() {
       {orders.map(order => (
         <div key={order.id} className="card mb-4 shadow-sm">
           <div className="card-body">
-            <h5 className="card-title">Заказ #{order.id}</h5>
+            <p className="card-text text-muted mb-3">
+              Создан: {new Date(order.created_at).toLocaleString('ru-RU')}
+            </p>
 
             <p className="card-text">
               <strong>Адрес доставки:</strong> {order.delivery_address}
             </p>
-
-            <p className="card-text">
-              <strong>Создан:</strong>{' '}
-              {new Date(order.created_at).toLocaleString('ru-RU')}
-            </p>
-
 
             <div className="mb-3">
               <strong>Товары:</strong>
