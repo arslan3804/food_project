@@ -1,0 +1,93 @@
+.sidebar {
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  position: relative;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.title h5 {
+  margin: 0;
+}
+
+.toggleButton {
+  display: none;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.toggleIcon {
+  border: solid #333;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+}
+
+.toggleIcon.open {
+  transform: rotate(-135deg);
+}
+
+.categoryList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  transition: max-height 0.3s ease-out;
+  overflow: hidden;
+}
+
+.categoryItem {
+  margin-bottom: 0.5rem;
+}
+
+.categoryItem:last-child {
+  margin-bottom: 0;
+}
+
+.categoryLink {
+  color: #333;
+  text-decoration: none;
+  display: block;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.categoryLink:hover {
+  background-color: #e9ecef;
+  text-decoration: none;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .toggleButton {
+    display: block;
+  }
+
+  .categoryList {
+    max-height: 0;
+  }
+
+  .categoryList.open {
+    max-height: 500px;
+  }
+} 
