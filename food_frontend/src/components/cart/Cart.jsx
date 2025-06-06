@@ -115,6 +115,12 @@ export default function Cart() {
         Оформить заказ
       </button>
 
+      {!canOrder && (
+        <small className="text-danger ms-3">
+          Сначала заполните данные в профиле
+        </small>
+      )}
+
       {orderMessage && (
         <div className="alert alert-info mt-3">
           {orderMessage}
